@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EfDay1;
+using Microsoft.Extensions.Configuration;
 
 namespace EfDay1
 {
@@ -6,20 +7,22 @@ namespace EfDay1
     {
         static void Main(string[] args)
         {
-
-            using(var context = new ApplicationContext()) 
-            {
-                var wall = context.wallets.Single(x => x.Holder == "Medhat");
-                wall.Balance = 5060;
-                Console.WriteLine(wall.Balance);
+            using(var context = new ApplicationContext())
+            { 
+                var wlt=context.wallets.Single(x=>x.id==7);
+                context.wallets.Remove(wlt);
                 context.SaveChanges();
             }
-            
-
-
         }
     }
 }
+//using (var context = new ApplicationContext())
+//{
+//    var wall = context.wallets.Single(x => x.Holder == "Medhat");
+//    wall.Balance = 5060;
+//    Console.WriteLine(wall.Balance);
+//    context.SaveChanges();
+//}
 //var wallet = new Wallet();
 
 //{
