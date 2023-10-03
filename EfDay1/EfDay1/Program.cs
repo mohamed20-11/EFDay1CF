@@ -8,10 +8,12 @@ namespace EfDay1
         static void Main(string[] args)
         {
             using(var context = new ApplicationContext())
-            { 
-                var wlt=context.wallets.Single(x=>x.id==7);
-                context.wallets.Remove(wlt);
-                context.SaveChanges();
+            {
+                var res = context.wallets.Where(x => x.Balance > 5000);
+                foreach(var x in res)
+                {
+                    Console.WriteLine(x);
+                }
             }
         }
     }
