@@ -1,5 +1,7 @@
 ﻿using EfDay1;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
 
 namespace EfDay1
 {
@@ -9,11 +11,23 @@ namespace EfDay1
         {
             using(var context = new ApplicationContext())
             {
-                var res = context.wallets.Where(x => x.Balance > 5000);
-                foreach(var x in res)
+                using(var transc= context.Database.BeginTransaction())
                 {
-                    Console.WriteLine(x);
+                    var frmWalt = context.wallets.Single(x => x.id == 2);
+                    var toWalt =  context.wallets.Single(y => y.id == 6);
+                    var ammountToTransfer = 6000;
+                    // Withdrawal From Id=1 :
+                    frmWalt.Balance -= ammountToTransfer;
+                    //Deposit To Id =6:
+                    toWalt.Balance += ammountToTransfer;
+                    Console.WriteLine($"Sender Balance : {frmWalt.Balance}");
+                    Console.WriteLine($"Reciever Balance : {toWalt.Balance}");
+                    context.SaveChanges();
+                    transc.Commit();
+
+
                 }
+                //context.SaveChanges();
             }
         }
     }
